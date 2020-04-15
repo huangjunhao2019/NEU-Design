@@ -1,0 +1,14 @@
+# 关于容器内部pid的若干问题
+[](https://hackernoon.com/the-curious-case-of-pid-namespaces-1ce86b6bc900)
+这篇文章里面谈到
+> "The first process started by the kernel has pid 1. This process is referred to as the init process, or simply ‘init’. The parent pid of init is pid 0, signifying that its parent is the kernel. Pid 1 is the root of the user-space process tree: It is possible to reach pid 1 on a linux system from any process by recursively following each process’ parent. If pid 1 dies, the kernel will panic and you have to reboot the machine."
+>
+这里面说明了pid 1是user-space进程树的根，其他进程都能递归的跟pid 1建立联系。
+>"The pid namespace is a little different: when you unshare the pid namespace, the process doesn’t immediately enter the new namespace. Instead, it is required to fork. The child process enters the pid namespace and becomes pid 1. This imbues it with special properties."
+>
+其中谈到了pidnamespace是一个进程树，其中第一个进程的pid是1，也就是pid namesapce的第一个进程是fork出来的，那么说明了，容器里面的进程应该都是和第一个进程有关系的。
+>"In other words the forked process will actually have two pids: it has pid 1 inside the namespace, and has a different pid when viewed from outside the namespace."
+>
+这里面说道pid1在namespace里面又一个pid，在外面有一个pid，我只要赋予这个外面的所有进程fifo的权限即可。
+    
+  这篇文章说明了容器中的进程也是在host system进程中可见的，并且提到了process tree的概念，进程树之间的关系应该是通过parent id建立的，并且说明了容器中的所有进程都是由容器中的pid 1fork出来的，我下面应该首先搞清楚这个process tree是如何传递的task_set的，如果是fork的话，那子进程直接复制父进程的一些信息。区分容器中的进程和host上的进程，应该就是namespace的区别，那下一步工作的重点应该就是了解进程之间是怎么互相建立的，是通过fork建立新进程吗？然后了解这个namespace中的进程和host上的进程的区别，然后就是了解如何为namespace中的进程赋予调整调度策略的方法，不用考虑特权与非特权了，特权容器root直接是host上的root，肯定没问题，只要是容器中的进程就赋予这个权力即可。应该了解一下特权与非特权在struct_task上的区别。

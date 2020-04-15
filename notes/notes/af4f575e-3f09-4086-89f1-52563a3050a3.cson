@@ -1,0 +1,65 @@
+createdAt: "2020-04-12T03:03:10.486Z"
+updatedAt: "2020-04-15T03:24:26.920Z"
+type: "MARKDOWN_NOTE"
+folder: "fe68bdb5012f97fcf7c5"
+title: "进程之间是如何相互建立的"
+tags: [
+  "pidnamespace"
+  "进程"
+  "毕业设计"
+]
+content: '''
+  # 进程之间是如何相互建立的
+   init进程是pid为1的进程
+  ## 1.僵尸进程
+  
+    当一个子进程结束运行时，并非马上就消失掉，而是留下一个称为僵尸进程的数据结构，等待父进程处理。
+  ## 2.孤儿进程
+      当前进程结束且父进程在他之前结束，这时子进程被“托孤”于init进程
+  ## 3.终端与终端中进程的关系
+  在这里面31011是终端，而31049是终端里面的操作，可以看到，终端里面启动的操作是终端的子进程。
+  ![21e5bfbc.png](:storage/af4f575e-3f09-4086-89f1-52563a3050a3/21e5bfbc.png)
+  ## 4.特权容器与非特权容器中的进程在host中的uid
+  下面的图中的apt操作是在非特权容器中进行操作的，但是uid依然显示是root，这是由于uid表示进程的创建者，而euid表示进程对于文件和资源的访问权限。一个进程有两个用户id：uid和euid。
+  ![788204d2.png](:storage/af4f575e-3f09-4086-89f1-52563a3050a3/788204d2.png)
+  下面来看一下进程的euid。
+  下面的问题就是如何详细了解一下pstree，pstree里面的具体含义是什么，这个图里面的内容非常有趣，他说明的这种关系是父进程与子进程的关系吗
+  
+  ![1550c199.png](:storage/af4f575e-3f09-4086-89f1-52563a3050a3/1550c199.png)
+  我在非特权容器中发起了apt进程，发现
+  ![50e6c468.png](:storage/af4f575e-3f09-4086-89f1-52563a3050a3/50e6c468.png)
+  两个都是root？
+  这上面的推论貌似不正确，看下面的这个链接
+  [隔离 docker 容器中的用户 - sparkdev - 博客园](https://www.cnblogs.com/sparkdev/p/9614326.html)
+  然而有些应用必须在容器中以 root 用户来运行，这就是我们使用 user namespace 的最佳场景。我们通过 user namespace 技术，把宿主机中的一个普通用户(只有普通权限的用户)映射到容器中的 root 用户。在容器中，该用户在自己的 user namespace 中认为自己就是 root，也具有 root 的各种权限，但是对于宿主机上的资源，它只有很有限的访问权限(普通用户)。
+  ## 5.docker容器中的root和host上的root的关系
+  
+  [Docker 容器的 root 安全吗？ - DCS 文档](https://guide.daocloud.io/dcs/docker-root-9153994.html)
+  这票文章里面讲述了，Docker容器root和宿主机中的root的关系，支出，docker容器的root和宿主机上的root属于同一个用户，两者的uid均为0。“虽然 Docker 容器内的 root 用户直接是宿主机的 root 用户，但是 Docker 可以保证两者在权限方面，拥有巨大的差异。此时，这种差异的存在完全是借助于Linux 内核的 Capabilities 机制。换言之，正是 Capabilities 在保障 Docker 容器的安全性。”非特权模式下，仅支持root下的14项权限，特权模式下支持37项权限。
+      以后查资料一定要随时记录，不然以后查找以前的资料将面临极大困难。以后写笔记也应该尽量按照写论文的要求。
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
