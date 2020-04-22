@@ -37,3 +37,8 @@ SYS_NICE的相关描述：
 不知道这种传统模式下的采用的privileged process和unprivileged process对容器有无参考价值。我感觉这个privileged process非常像这个privileged container的情况，跳过所有内核检查，而unprivieged process像是“unprivileged container”，需要进行检查。**后来privileged process和unprivileged process都修改成为了下面所说的，所以我觉得比较理想的unprivileged container也应该是下面这种思路，细化capability。**
 ![](2020-04-17-00-13-32.png)，当前Linux应该是不采用传统模式了。
 **明天应该对capability的机制进行了解，即他的数据结构是什么，是通过cgroup还是namespace进行操作的，然后细化到SYS_NICE，对其进行操作。**
+## 3.
+https://github.com/docker/labs/tree/master/security/capabilities
+![](2020-04-17-20-40-48.png)
+
+这篇文章里面提到了上述说法，“set capability bits on a file"，我怀疑是按照某种置位手段进行的。这篇文章主要讲解了在docker中如何对相应容器增减相应capability以及capability的基本概念，不是学术性文章，而是普通github论文，没有什么实际参考价值。
