@@ -9,3 +9,5 @@ https://elixir.bootlin.com/linux/v5.7-rc1/source/security/commoncap.c
 
 所以第一步，直接把这个返回值改成0，全部允许试试看
 ## 2. 编译内核的方法
+https://blog.csdn.net/qq_36290650/article/details/83052315
+我是按照这篇博客来进行调试的，第一步，进行了把上述图中的那个函数，修改成为了 return 0;编译时间有点长
