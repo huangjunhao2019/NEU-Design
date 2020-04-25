@@ -24,3 +24,8 @@ https://blog.csdn.net/qq_36290650/article/details/83052315
 
 ![](2020-04-22-16-39-05.png)
 调整成功，这说明了，我的那个思路是正确的，应该去研究这个commoncap.c
+## 3.再次复现
+ ### （1）仅仅修改set scheduler，没有修改set nice
+ 我在vmware上复现，发现不成功，怀疑是不是不对。注意vmware上不要安装vmtools，安装open-vm-tools就可以，现在在物理机上试一下。
+ https://www.cnblogs.com/harrypotterjackson/p/11846222.html
+ 所有步骤都是按照这个进行的。
