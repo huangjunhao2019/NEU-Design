@@ -29,3 +29,4 @@ https://blog.csdn.net/qq_36290650/article/details/83052315
  我在vmware上复现，发现不成功，怀疑是不是不对。注意vmware上不要安装vmtools，安装open-vm-tools就可以，现在在物理机上试一下。
  https://www.cnblogs.com/harrypotterjackson/p/11846222.html
  所有步骤都是按照这个进行的。
+ 这个步骤在efui启动界面不显示，现在增加一条"sudo mkinitramfs 5.6.6 -o /boot/initrd.img-5.6.6“，后面为"sudo update-grub2"
