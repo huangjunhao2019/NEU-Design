@@ -9,6 +9,7 @@ https://elixir.bootlin.com/linux/v5.7-rc1/source/security/commoncap.c
 
 所以第一步，直接把这个返回值改成0，全部允许试试看
 ## 2. 编译内核的方法
+<<<<<<< HEAD
 我是通过这个方法对Linux内核进行编译的
 https://blog.csdn.net/qq_36290650/article/details/83052315
 时间较长，但是最后成功，注意中间有一段报错是因为终端没有全屏，全屏之后就好了。
@@ -30,3 +31,7 @@ https://blog.csdn.net/qq_36290650/article/details/83052315
  https://www.cnblogs.com/harrypotterjackson/p/11846222.html
  所有步骤都是按照这个进行的。
  这个步骤在efui启动界面不显示，现在增加一条"sudo mkinitramfs 5.6.6 -o /boot/initrd.img-5.6.6“，后面为"sudo update-grub2"
+=======
+https://blog.csdn.net/qq_36290650/article/details/83052315
+我是按照这篇博客来进行调试的，第一步，进行了把上述图中的那个函数，修改成为了 return 0;编译时间有点长
+>>>>>>> 0012dbb769f011b4f0ee12d937a58e9255b3b1c4
